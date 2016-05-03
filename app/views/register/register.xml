@@ -6,6 +6,9 @@
         <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
         <label text="Want to receive Hangout push notifications? Register first!" textWrap="true" />
         <label text="Your device id/token:" textWrap="true" />
+
+        <ActivityIndicator col="2" busy="{{ isLoading }}" horizontalAlignment="center"/>
+        
 	    <TextView text="{{ registrationId }}" class="title" textWrap="true"/>
 	    <Label text="{{ message }}" class="message" textWrap="true" />
 

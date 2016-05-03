@@ -11,25 +11,8 @@ exports.loaded = function(args) {
     page.bindingContext = user;
 };
 
-/*function completeRegistration() {
-    user.register()
-        .then(function() {
-            dialogsModule
-                .alert("Your account was successfully created.")
-                .then(function() {
-                    frameModule.topmost().navigate("views/login/login");
-                });
-        }).catch(function(error) {
-            console.log(error);
-            dialogsModule
-                .alert({
-                    message: "Unfortunately we were unable to create your account.",
-                    okButtonText: "OK"
-                });
-        });
-}*/
-
 exports.register = function() {
+    user.set("isLoading", true);
     var settings = {
         // Android settings 
         senderID: '957910377744', // Android: Required setting with the sender/project number 
@@ -45,12 +28,12 @@ exports.register = function() {
   
         // Callback to invoke, when a push is received on iOS 
         notificationCallbackIOS: function(message) {
-            alert(JSON.stringify(message));
+            console.log(JSON.stringify(message));
         }
     };
 
     pushPlugin.areNotificationsEnabled(function(areEnabled) {
-        //alert('Are Notifications enabled: ' + areEnabled);
+        console.log('Are Notifications enabled: ' + areEnabled);
     });
 
     pushPlugin.register(settings,
@@ -58,38 +41,32 @@ exports.register = function() {
        function (token) {
            clipboard.setText(token);
            //alert('Device registered successfully ' + token);
-           console.log(token);
+           console.log("register completed: "+token);
+           user.set("isLoading", false);
            user.set("registrationId", token);                   
        },
        // Error Callback
        function (error) {
+           user.set("isLoading", false);
            alert(error.message);
        }
     );
-
-    pushPlugin.onMessageReceived(function callback(data) {
-        console.log("onMessageReceived: "+data);
-        dialogsModule.alert({
-           title: "Hangout Push Notification",
-           message: "Hangout has a new post, Please check Hangout web page to see the news",
-           okButtonText: "OK"
-        }).then(function () {
-            console.log("Dialog closed!");
-        });
-        //alert(JSON.stringify(data));
-        console.log("onMessageReceived: "+JSON.stringify(data));
-    });
-
-    pushPlugin.onTokenRefresh(function (token) {
-        alert("onTokenRefresh: "+token);
-    });
-
-    /*if (user.isValidEmail()) {
-        completeRegistration();
-    } else {
-        dialogsModule.alert({
-            message: "Enter a valid email address.",
-            okButtonText: "OK"
-        });
-    }*/
 };
+
+pushPlugin.onMessageReceived(function callback(data) {
+    console.log("onMessageReceived: "+data);
+    dialogsModule.alert({
+       title: "Hangout Push Notification",
+       message: "Hangout has a new post, Please check Hangout web page to see the news",
+       okButtonText: "OK"
+    }).then(function () {
+        console.log("Dialog closed!");
+    });
+    //alert(JSON.stringify(data));
+    //console.log("onMessageReceived: "+JSON.stringify(data));
+});
+
+pushPlugin.onTokenRefresh(function (token) {
+    console.log("onTokenRefresh: "+token);
+    alert("onTokenRefresh: "+token);
+});
