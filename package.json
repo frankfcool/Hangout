@@ -1,0 +1,27 @@
+{
+	"name": "Hangout",
+	"version": "1.0.0",
+	"description": "A NativeScript-built Android app for Hangout",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"keywords": [
+		"NativeScript"
+	],
+	"author": "Frank Feng",
+	"homepage": "https://github.com/frankfeng1/Hangout/",
+	"nativescript": {
+		"id": "org.nativescript.Hangout",
+		"tns-android": {
+			"version": "1.7.1"
+		}
+	},
+	"dependencies": {
+		"email-validator": "^1.0.3",
+		"nativescript-social-share": "^1.1.2",
+		"nativescript-clipboard": "^1.1.4",
+		"nativescript-push-notifications": "0.0.15",
+		"tns-core-modules": "1.7.0"
+	}
+}

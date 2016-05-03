@@ -1,0 +1,14 @@
+<Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Register"></ActionBar>
+    </Page.actionBar>
+    <StackLayout>
+        <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
+        <label text="Want to receive Hangout push notifications? Register first!" textWrap="true" />
+        <label text="Your device id/token:" textWrap="true" />
+	    <TextView text="{{ registrationId }}" class="title" textWrap="true"/>
+	    <Label text="{{ message }}" class="message" textWrap="true" />
+
+        <Button text="Register your app to Hangout" tap="register" />
+    </StackLayout>
+</Page>
