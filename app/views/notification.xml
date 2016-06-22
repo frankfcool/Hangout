@@ -1,0 +1,11 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="register">
+    <Page.actionBar>
+        <ActionBar title="DeX"></ActionBar>
+    </Page.actionBar>
+    <StackLayout>
+        <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
+        <label text="Welcome! You will receive push notification from Hangout when this app is running." textWrap="true" />
+        <ActivityIndicator busy="{{ isLoadingIn }}" />
+	    <Label text="{{ regMessage }}" class="message" textWrap="true" />
+    </StackLayout>
+</Page>

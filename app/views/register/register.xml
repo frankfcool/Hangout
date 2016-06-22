@@ -11,6 +11,7 @@
         
 	    <TextView text="{{ registrationId }}" class="title" textWrap="true"/>
 	    <Label text="{{ message }}" class="message" textWrap="true" />
+        
 
         <Button text="Register your app to Hangout" tap="register" />
     </StackLayout>
