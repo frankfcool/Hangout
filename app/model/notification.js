@@ -79,6 +79,10 @@ var NotificationModel = (function (_super) {
                     }
                 })
                 .then(function(response) {
+                    if (!response.ok) {
+                        console.log(JSON.stringify(response));
+                        throw Error(response.statusText);
+                    }
                     var git = JSON.parse(response._bodyText);
                     //user.set("gitTxt", git.sha);
                     //console.log("GIT response sha: " + git.sha);                
@@ -87,26 +91,35 @@ var NotificationModel = (function (_super) {
                     //TODO   
                     var strCon = git.content.replaceAll("\n","");
                     var con = JSON.parse(atob(strCon));
-                    con.push({"token": token, "platform":"android"});
-                    if (!response.ok) {
-                        console.log(JSON.stringify(response));
-                        throw Error(response.statusText);
+                    console.log("con.length: "+con.length);
+
+                    var isExistToken = false;
+                    if(con.length>0){
+                        var c;
+                        for(c in con){
+                            if(token == con[c].token){
+                                isExistToken = ture;
+                            }
+                        }
                     }
-                    fetchModule.fetch("https://api.github.com/repos/frankfeng1/Device/contents/data.json", {
-                        method: "PUT",
-                        headers: {
-                            "Authorization": "Basic ZnJhbmtmZW5nMTpmMDAwMDAw",
-                            "Accept": "application/vnd.github.v3+json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            message: "Android App push",
-                            content: btoa(JSON.stringify(con)),
-                            sha: git.sha
-                        })
-                    }).then(function(response) {
-                        console.log("GIT update response: " + response._bodyText);
-                    });                
+                    if(!isExistToken){
+                        con.push({"token": token, "platform":"android"});
+                        fetchModule.fetch("https://api.github.com/repos/frankfeng1/Device/contents/data.json", {
+                            method: "PUT",
+                            headers: {
+                                "Authorization": "Basic ZnJhbmtmZW5nMTpmMDAwMDAw",
+                                "Accept": "application/vnd.github.v3+json",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                message: "Android App push",
+                                content: btoa(JSON.stringify(con)),
+                                sha: git.sha
+                            })
+                        }).then(function(response) {
+                            //console.log("GIT update response: " + response._bodyText);
+                        });
+                    }               
                 }).then(function(data) {
                     data.Result.forEach(function(grocery) {
                         
